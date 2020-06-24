@@ -1,43 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+        <meta charset="utf-8" />
+        <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#343a40" />
+        <meta name="description" content="Tyne music app for streaming"/>
+        <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+        <!--
+        manifest.json provides metadata used when your web app is installed on a
+        user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+        -->
+        <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+        <!--
+        Notice the use of %PUBLIC_URL% in the tags above.
+        It will be replaced with the URL of the `public` folder during the build.
+        Only files inside the `public` folder can be referenced from the HTML.
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+        Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+        work correctly both with client-side routing and a non-root public URL.
+        Learn how to configure a non-root public URL by running `npm run build`.
+        -->
+        <title>tyne music</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href="css/base.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <h1>tyne music</h1>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="">home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="">accounts</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="">settings</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="">help</a>
+                </li>
+
+            </ul>
+
+            <form id="top-search-bar" method="GET" action="" class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-4" type="search" name="query" value="" placeholder="Search for music" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+
+          </div>
+      </nav>
+      
+      <noscript>
+          <h1 class="text-center">To run this app you need to enable JavaScript</h1>
+      </noscript>
+      <div id="music-app"></div>
+
+        <footer class="section footer-classic context-dark bg-image" style="background: #2d3246;">
+            <div class="container">
+                <div class="row row-30">
+                    <div class="col-md-4 col-xl-5">
+                        <div class="pr-xl-4"><a class="brand" href=""><h1>tyne music</h1></a>
+                            <p>We are an award-winning music streaming site, dedicated to the best service, quality, and customer service.</p>
+                            <!-- Rights-->
+                            <p class="rights"><span>©  2019 - </span><span class="copyright-year" id="copy-year"></span><span> </span>. <span>HOUSE OF M</span><span>. </span><span>All Rights Reserved.</span></p>
+                            <script type="text/javascript">
+                                var date = new Date();
+                                document.getElementById("copy-year").innerText = date.getFullYear();
+                            </script>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>Contacts</h5>
+                        <dl class="contact-list">
+                            <dt>Address:</dt>
+                            <dd>P.O. Box 2000 Kiambu</dd>
+                        </dl>
+                        <dl class="contact-list">
+                            <dt>email:</dt>
+                            <dd><a href="mailto:#">customerservice@tyne.com</a></dd>
+                        </dl>
+                        <dl class="contact-list">
+                            <dt>phones:</dt>
+                            <dd><a href="tel:#">+254 5685430129</a> <span>or</span> <a href="tel:#">+254 9571195353</a>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-4 col-xl-3">
+                        <h5>Links</h5>
+                        <ul class="nav-list">
+                            <li><a href="#">accounts</a></li>
+                            <li><a href="#">help</a></li>
+                            <li><a href="#">contacts</a></li>
+                            <li><a href="#">pricing</a></li>
+                            <li><a href="#">house of M</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- <script src="js/bootstrap.bundle.min.js"></script> -->
+    </body>
 </html>

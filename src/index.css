@@ -1,4 +1,4 @@
-body {
+/* body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -10,4 +10,184 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+} */
+#music-app {
+    min-height: 60vh;
 }
+
+/* index.css */
+#main {
+  padding: 2em;
+}
+
+.index-card {
+  margin: 1em;
+  /* min-width: 19%; */
+  /* max-width: 24%; */
+  max-width: 15em;
+  background: #38383d;
+}
+
+.top {
+  width: 100%;
+  height: 11em;
+  overflow: hidden;
+}
+
+.index-card > img {
+  width: 100%;
+}
+
+.index-card a {
+  text-decoration: none;
+  color: unset;
+}
+
+.top:hover {
+  overflow: visible;
+}
+
+
+.play-par {
+  margin: auto;
+}
+
+.play-btn {
+  cursor: pointer;
+  width: 80%;
+}
+
+.artist .card-title, .genre .card-title {
+  text-align: center;
+}
+
+.artist .play-par, .genre .play-par {
+  width: 20%;
+}
+
+
+
+/* album.css */
+
+#album-info {
+  text-align: center;
+}
+
+#top-heading a:hover {
+  text-decoration: none;
+}
+
+#cover-image {
+  max-height: 60vh;
+  max-width: 100%;
+}
+
+#more-info {
+  margin-top: 5em;
+  text-align: left;
+}
+
+.song {
+  border: 1px solid rgb(180, 156, 156);
+  border-radius: 5px;
+  padding: 1em;
+  height: 4em;
+  overflow: hidden;
+  margin-top: 1em;
+  display: flex;
+  flex-direction: row;
+}
+
+.song-name {
+  width: 50%;
+}
+
+.song-play-button {
+  width: 10%;
+  display: flex;
+  justify-content: center;
+}
+
+
+.play-btn-song:hover {
+  background-color: darkslategray;
+  cursor: pointer;
+}
+
+
+.song-genre {
+  width: 20%;
+}
+
+.song-genre a:hover {
+  text-decoration: none;
+}
+
+.song-length {
+  width: 20%;
+}
+
+/* * {
+  border: 1px solid blue;
+} */
+
+
+/* artist.css */
+#artist-image {
+  max-height: 60vh;
+}
+
+.artist-info > li {
+  border: 1px solid cadetblue;
+  border-radius: 3px;
+  width: 60%;
+  margin-top: 1em;
+  padding: 1em;
+  text-align: center;
+  transition: 0.2s;
+}
+
+.artist-info > li:hover {
+  background-color: rgb(93, 94, 97);
+}
+
+.more-al * {
+  margin-top: 2em;
+}
+
+.a-album {
+  border: 1px solid cadetblue;
+  border-radius: 3px;
+  height: 10em;
+  margin-top: 1em;
+}
+
+
+.a-album-cover {
+  height: 10em;
+}
+
+
+#genres {
+  margin-top: 3em;
+  /* border: 1px solid yellow; */
+}
+
+#genres > .row {
+  padding: 2em;
+}
+
+.genre a {
+  border: 1px solid cadetblue;
+  border-radius: 40px;
+  padding: 1.2em;
+  margin: 0.5em;
+  transition: 0.2s;
+}
+
+.genre a:hover {
+  text-decoration: none;
+  color: #007bff;
+  background-color: #444449;
+}
+
