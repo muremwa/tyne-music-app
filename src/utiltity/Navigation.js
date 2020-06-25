@@ -10,13 +10,13 @@ export default function MusicNavigation () {
                     <NavLink className="nav-link" to='/'>all music</NavLink>
                 </li>
                 <li className="nav-item">
-                    <NavLink className="nav-link" to='/albums/'>Albums</NavLink>
+                    <NavLink className="nav-link" to='/albums/'>albums</NavLink>
                 </li>
                 <li className="nav-item">
-                    <NavLink className="nav-link" to='/artists/'>Artists</NavLink>
+                    <NavLink className="nav-link" to='/artists/'>artists</NavLink>
                 </li>
                 <li className="nav-item">
-                    <NavLink className="nav-link" to='/genres/'>Genres</NavLink>
+                    <NavLink className="nav-link" to='/genres/'>genres</NavLink>
                 </li>
             </ul>
         </div>

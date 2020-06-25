@@ -5,18 +5,17 @@
 */
 export function cleanSearchParams (query) {
     let localQuery = null;
-    
+
     if (query) {
-        localQuery = [...query.matchAll(/(\w+)=(\w+)/g)];
+        localQuery = [...query.matchAll(/(\w+)=([a-zA-Z-]+)/g)];
 
         localQuery = Object.assign(
-            localQuery.map((result) => (
+            ...localQuery.map((result) => (
                 {
-                    [result[1]]: result[1]
+                    [result[1].toLocaleLowerCase()]: result[2]
                 }
             ))
         );
     };
-
     return localQuery;
 };
