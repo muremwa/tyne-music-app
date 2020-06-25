@@ -1,0 +1,77 @@
+.index-card {
+    margin: 1em;
+    width: 18em;
+    background: #474646;
+}
+
+.top {
+    width: 100%;
+    height: 9em;
+    overflow: hidden;
+}
+
+.index-card > img {
+    width: 100%;
+}
+
+.card-body {
+    height: 7.5em;
+}
+
+.index-card a {
+    text-decoration: none;
+    color: unset;
+}
+
+/* .top:hover {
+  overflow: visible;
+} */
+
+.play-section-album-index {
+    display: flex;
+    flex-direction: row;
+}
+
+.play-section-album-index .album-info {
+    width: 80%;
+}
+
+.play-section-album-index .play-par {
+    width: 20%;
+    margin: auto;
+}
+
+
+.play-btn {
+    cursor: pointer;
+    width: 80%;
+}
+
+.artist .card-title, .genre .card-title {
+    text-align: center;
+}
+
+.artist .genre .play-par {
+    width: 20%;
+}
+
+.genre .card-text, .artist .card-text {
+    height: 40%;
+}
+
+.genre .play-par, .artist .play-par {
+    height: 100%;
+}
+
+.genre .play-btn, .artist .play-btn {
+    width: 100%;
+    height: 100%;
+}
+
+#artists {
+    margin-bottom: 5em;
+}
+
+.none-available {
+    padding: 2em 0 2em 30%;
+}

@@ -1,0 +1,64 @@
+
+/* album.css */
+
+#album-info {
+    text-align: center;
+  }
+  
+  #top-heading a:hover {
+    text-decoration: none;
+  }
+  
+  #cover-image {
+    max-height: 60vh;
+    max-width: 100%;
+  }
+  
+  #more-info {
+    margin-top: 5em;
+    text-align: left;
+  }
+  
+  .song {
+    border: 1px solid rgb(180, 156, 156);
+    border-radius: 5px;
+    padding: 1em;
+    height: 4em;
+    overflow: hidden;
+    margin-top: 1em;
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .song-name {
+    width: 50%;
+  }
+  
+  .song-play-button {
+    width: 10%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  
+  .play-btn-song:hover {
+    background-color: darkslategray;
+    cursor: pointer;
+  }
+  
+  
+  .song-genre {
+    width: 20%;
+  }
+  
+  .song-genre a:hover {
+    text-decoration: none;
+  }
+  
+  .song-length {
+    width: 20%;
+  }
+  
+  /* * {
+    border: 1px solid blue;
+  } */
