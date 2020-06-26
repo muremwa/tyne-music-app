@@ -70,7 +70,7 @@ export function GenreIndex (props) {
 
 export function ArtistIndex (props) {
     /* 
-        Each album on the index page
+        Each artist on the index page
     */
     return (
         <div className="card index-card artist">

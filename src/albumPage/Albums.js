@@ -4,6 +4,8 @@ import { NavLink } from 'react-router-dom';
 import { cleanSearchParams } from '../utiltity/main';
 
 import { AlbumIndex, NoSuchAvailable, ArtistIndex, GenreIndex } from '../indexPage/IndexUtility';
+import Explore from './Explore';
+
 import '../css/album.css';
 
 
@@ -226,12 +228,11 @@ export default class Album extends React.Component {
             };
         } else {
             // This shall give a page to browse albums
-            let albums = mapAlbumsToIndex(this.state.albums)
-            display = <FilteredAlbums albums={albums} filterheading={'broswing'}/>;
+            display = <Explore />
         };
         
         return (
-            <div id="albums-main">
+            <div id="albums-main" className="container-fluid">
                 {display}
             </div>
         );

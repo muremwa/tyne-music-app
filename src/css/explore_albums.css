@@ -1,0 +1,69 @@
+#search-albums {
+    width: 100%;
+    padding: 3em 0 4em 0;
+    display: flex;
+    justify-content: center;
+}
+
+
+#search-albums > form {
+    width: 40%;
+}
+
+#search-form {
+    height: 2.5em;
+    font-size: large;
+    color: #38383d;
+    /* background-color: rgb(187, 184, 187); */
+}
+
+#search-button {
+    margin-left: 45%;
+}
+
+
+.explorer-genres {
+    padding: 2em 0 2em 0;
+}
+
+.explorer-genres .small-genre-link {
+    text-align: center;
+    min-width: 10em;
+    border: 1px solid cadetblue;
+    border-radius: 40px;
+    padding: 1.2em;
+    margin: 0.5em;
+    transition: 0.2s;
+}
+
+.small-genre-link:hover {
+    text-decoration: none;
+    color: #007bff;
+    background-color: #444449;
+}
+
+
+.explore-category {
+    margin: 2em 0 2em 0;
+}
+
+.category-heading {
+    height: 6em;
+    display: flex;
+    flex-direction: row;
+}
+
+.category-heading > img {
+    width: 6em;
+    height: 6em;
+    border-radius: 50%;
+    margin: 0 2em 0 0;
+}
+
+.category-heading > h2 {
+    margin: 0.5em 0 0 0;
+}
+
+.category-heading > h2 > small {
+    font-size: small;
+}
