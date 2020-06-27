@@ -8,7 +8,7 @@ import '../css/explore_albums.css';
 
 
 
-function Category (props) {
+export function Category (props) {
     // if the category is of albums, show albums
     let displayItems;
 

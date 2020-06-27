@@ -54,7 +54,7 @@ export function GenreIndex (props) {
                 <img className="card-img-top" alt={`cover for ${props.name}`} src={props.cover}/>
             </div>
             <div className="card-body">
-                <h5 className="card-title"><NavLink to={`/genres?name=${props.slug}`}>{props.name}</NavLink></h5>
+                <h5 className="card-title"><NavLink to={`/genres?genreName=${props.slug}`}>{props.name}</NavLink></h5>
                 <hr />
                 <div className="card-text">
                     <div className="play-par">

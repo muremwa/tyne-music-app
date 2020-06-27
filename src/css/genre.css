@@ -1,0 +1,28 @@
+#genre-info {
+    display: flex;
+    flex-direction: row;
+}
+
+#more-genre-info {
+    width: 50%;
+}
+
+#more-genre-info p {
+    height: 10em;
+}
+
+#genre-shuffle {
+    height: 5em;
+    width: 7em;
+    border-radius: 5%;
+}
+
+#genre-shuffle:hover {
+    background: darkcyan;
+    cursor: pointer;
+}
+
+#genre-shuffle > img {
+    width: 100%;
+    height: 100%;
+}

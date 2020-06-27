@@ -21,7 +21,7 @@ function Song (props) {
                 <img className="play-btn-song" src="http://127.0.0.1:8000/static/svg/play_arrow.svg" alt="play button"/>
             </span>
             <span className="song-genre">
-                <NavLink to={`/genres?name=${props.genreSlug}`}>{props.genre}</NavLink>
+                <NavLink to={`/genres?genreName=${props.genreSlug}`}>{props.genre}</NavLink>
             </span>
             <span className="song-length">{props.length}</span>
         </div>
