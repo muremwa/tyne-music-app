@@ -42,13 +42,13 @@ function SmallGenre (props) {
     /* 
         small rounded border genre
     */
-    return <NavLink className="small-genre-link" to={`/genres?name=${props.genreSlug}`}>{props.genre}</NavLink>
+    return <NavLink className="small-genre-link" to={`/genres?genreName=${props.genreSlug}`}>{props.genre}</NavLink>
 }
 
 
 
 export default class Explore extends React.Component {
-    componentWillMount () {
+    componentDidMount () {
         // hide the top search bar
         document.getElementById('top-search-bar').style.display = 'none';
     };
@@ -68,8 +68,8 @@ export default class Explore extends React.Component {
                         <div className="form-group">
                             <input id="search-form" type="text" className="form-control" placeholder="search for albums, artists or genres" autoFocus/>
                         </div>                           
-                        <span class="input-group-btn">
-                            <button id="search-button" type="button" class="btn btn-default">search</button>
+                        <span className="input-group-btn">
+                            <button id="search-button" type="button" className="btn btn-default">search</button>
                         </span>
                     </form>
                 </div>
