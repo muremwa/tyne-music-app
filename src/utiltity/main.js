@@ -7,7 +7,7 @@ export function cleanSearchParams (query) {
     let localQuery = null;
 
     if (query) {
-        localQuery = [...query.matchAll(/(\w+)=([a-zA-Z-]+)/g)];
+        localQuery = [...query.matchAll(/(\w+)=([0-9a-zA-Z-]+)/g)];
 
         if (localQuery.length > 0) {
             localQuery = Object.assign(

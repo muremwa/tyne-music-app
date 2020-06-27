@@ -28,6 +28,14 @@ body {
     margin-left: 3em;
 }
 
+#top-search-bar {
+    width: 50%;
+}
+
+#top-search-bar-input {
+    width: 85%;
+}
+
 footer {
     padding-top: 3em;
     padding-bottom: 3em;

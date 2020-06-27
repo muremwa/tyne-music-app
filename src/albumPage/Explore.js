@@ -38,7 +38,7 @@ export function Category (props) {
 
 
 
-function SmallGenre (props) {
+export function SmallGenre (props) {
     /* 
         small rounded border genre
     */
