@@ -25,12 +25,12 @@ export function AlbumIndex(props) {
                 <img className="card-img-top" alt={`Cover for ${props.title}`} src={props.albumCover}/>
             </div>
             <div className="card-body">
-                <h5 className="card-title"><NavLink to={`/albums?title=${props.albumSlug}`}>{`${props.title} (${props.year})`}</NavLink></h5>
+                <h5 className="card-title"><NavLink to={`/albums?albumTitle=${props.albumSlug}`}>{`${props.title} (${props.year})`}</NavLink></h5>
                 <hr />
                 <div className="card-text">
                     <div className="play-section-album-index">
                         <ul className="album-info">
-                            <li><NavLink to={`/artists?name=${props.artistSlug}`}>{props.artist}</NavLink></li>
+                            <li><NavLink to={`/artists?artistName=${props.artistSlug}`}>{props.artist}</NavLink></li>
                         </ul>
                         <div className="play-par">
                             <span><img className="play-btn" src="http://127.0.0.1:8000/static/svg/play-circle.svg" alt="play-button"/></span>
@@ -78,7 +78,7 @@ export function ArtistIndex (props) {
                 <img className="card-img-top" alt={`Cover for ${props.name}`} src={props.avi}/>
             </div>
             <div className="card-body">
-                <h5 className="card-title"><NavLink to={`/artists?name=${props.artistSlug}`}>{props.name}</NavLink></h5>
+                <h5 className="card-title"><NavLink to={`/artists?artistName=${props.artistSlug}`}>{props.name}</NavLink></h5>
                 <hr />
                 <div className="card-text text-center">
                     <div className="play-par">

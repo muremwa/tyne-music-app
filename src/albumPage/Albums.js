@@ -37,7 +37,7 @@ function SingleAlbum (props) {
 
     return (
         <div className="container">
-            <h2 id="top-heading" className="text-center">{props.title} ({props.year}) by <NavLink to={`/artists/?name=${props.artistSlug}`}>{props.artist}</NavLink></h2>
+            <h2 id="top-heading" className="text-center">{props.title} ({props.year}) by <NavLink to={`/artists/?artistName=${props.artistSlug}`}>{props.artist}</NavLink></h2>
 
             <div className="row">
 
