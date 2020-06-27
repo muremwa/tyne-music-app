@@ -1,12 +1,12 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import HomePage from './indexPage/Home';
-import Album from './albumPage/Albums';
-import Artist from './artistPage/Artist';
-import Genre from './genrePage/Genre';
-import Error404 from './utiltity/Error404';
-import MusicNavigation from './utiltity/Navigation';
+import HomePage from './pages/indexPage/Home';
+import Album from './pages/albumPage/Albums';
+import Artist from './pages/artistPage/Artist';
+import Genre from './pages/genrePage/Genre';
+import Error404 from './pages/utiltity/Error404';
+import MusicNavigation from './pages/utiltity/Navigation';
 
 
 export default function App() {
