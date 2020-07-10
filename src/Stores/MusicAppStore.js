@@ -117,7 +117,6 @@ class MusicAppStore extends EventEmitter {
                     this.categories.genreCategories,
                     action.payload
                 );
-                // console.log(this.categories.genreCategories)
                 break;
 
             default:

@@ -71,7 +71,6 @@ export default class Genre extends React.Component {
         if (search) {
             if (search.genreName !== undefined) {
                 const genre = musicAppStore.getGenre(search.genreName);
-                console.log(genre);
                 display = <SingleGenre {...genre} />
             } else {
                 display = <ListGenres items={musicAppStore.filterGenres(search)} />;

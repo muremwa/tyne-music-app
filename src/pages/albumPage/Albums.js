@@ -145,7 +145,6 @@ export default class Album extends React.Component {
             } else {
                 // if 'title' was not in the search then we'll filter using the user's filters
                 const { albums, artist, genre } = musicAppStore.filterAlbums(search);
-                console.log(albums)
                 const filterheading = `filtered by ${Object.keys(search).map((key) => search[key]).join(' and ')}`
                 display = <FilteredAlbums albums={mapAlbumsToIndex(albums)} {...{artist, genre, filterheading}} />;
             };

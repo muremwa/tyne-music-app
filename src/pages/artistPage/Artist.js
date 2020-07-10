@@ -89,7 +89,7 @@ export default class Artist extends React.Component {
             };
         } else {
             let title = `Artists to checkout`;
-            display = <MultipleArtists title={title} artists={this.filterArtists(search)} />;
+            display = <MultipleArtists title={title} artists={musicAppStore.filterArtists(search)} />;
         };
 
         return (
