@@ -4,6 +4,8 @@ import { NavLink } from 'react-router-dom';
 import { cleanSearchParams } from '../utiltity/main';
 
 import { AlbumIndex, NoSuchAvailable, ArtistIndex, GenreIndex } from '../indexPage/IndexUtility';
+import Error404 from '../utiltity/Error404';
+import musicAppStore from '../../Stores/MusicAppStore';
 import Explore from './Explore';
 
 import '../css/album.css';
@@ -113,86 +115,10 @@ function FilteredAlbums(props) {
 
 
 export default class Album extends React.Component {
-    /* 
-        Filter albums by artist, genre, year, etc.
-    */
     state = {
-        albums: [
-            {
-                title: 'Loud',
-                year: 2010,
-                artist: 'Rihanna',
-                artistSlug: 'rihanna-1',
-                albumSlug: 'loud',
-                genre: 'R&B',
-                genreSlug: 'rythms-and-blue',
-                albumCover: 'http://127.0.0.1:8000/media/defaults/album_cover.png'
-            },
-            {
-                title: 'The Carter V',
-                year: 2018,
-                artist: 'Lil Wayne',
-                artistSlug: 'lil-wayne-2',
-                albumSlug: 'the-carter-iv',
-                genre: 'Hip hop',
-                genreSlug: 'hip-hop',
-                albumCover: 'http://127.0.0.1:8000/media/album_covers/the_carter_iv.png'
-            },
-            {
-                title: 'Pink Print',
-                year: 2015,
-                artist: 'Nicki Minaj',
-                artistSlug: 'nicki-minaj-4',
-                albumSlug: 'pink-print',
-                genre: 'Hip Hop',
-                genreSlug: 'hip-hop',
-                albumCover: 'http://127.0.0.1:8000/media/defaults/album_cover.png'
-            },
-            {
-                title: 'Anti',
-                year: 2016,
-                artist: 'Rihanna',
-                artistSlug: 'rihanna-1',
-                albumSlug: 'anti',
-                genre: 'Dancehall',
-                genreSlug: 'dancehall',
-                albumCover: 'http://127.0.0.1:8000/media/album_covers/65f6cde8ee53c7ba39d6ce738094ea53.jpg'
-            },
-        ],
-    };
+        albums: []
+    }
 
-    getAdditionalAlbumInfo (album) {
-        /* 
-            This shall be used to retireve album info from the back-end!
-        */
-        let result = {
-            songs: [],
-            released: '',
-            description: '',
-            
-        }
-        // TODO:: add procedure to fetch additional album info including songs
-        return result;
-    };
-
-
-    filterAlbums (obj) {
-        /* 
-            filter albums by 
-            a. genre -> genre: 'name'
-            b. artist -> artist: 'name'
-            c. year -> before? after? year?: year
-        */
-        let albums = [];
-
-        // TODO:: filter albums frontend? back-end?
-
-        return {
-            albums,
-            artist: null,
-            genre: null
-        };
-    };
     
     render () {
         const search = cleanSearchParams(this.props.location.search);
@@ -205,24 +131,21 @@ export default class Album extends React.Component {
         }
 
         if (search) {
-            if (Object.keys(search).includes('title')) {
-                // if the query is a title search the return a single album page
-                let title = search['title'];
-                let album = this.state.albums.find((album) => album.albumSlug === title || album.title.toLowerCase().includes(title));           
-    
-                if (album !== undefined) {
-                    // if the album does not exist in our catalogue, we may want to search the back-end 
-                    // but for now we will return an index of albums
-                    display = <SingleAlbum {...album} {...this.getAdditionalAlbumInfo(album.albumSlug)}/>
+            if (search.albumSlug !== undefined) {
+                const album = musicAppStore.getAlbum(search.albumSlug);
+
+                if (album) {
+                    // if the album is found (however it's found is none of this component's business) Show it
+                    display = <SingleAlbum {...album} />;
                 } else {
-                    // this will at one time look for the album in the back-end
-                    let albums = mapAlbumsToIndex(this.state.albums)
-                    display = <FilteredAlbums albums={albums} filterheading={'not found'}/>;
-                };
+                    // show a 404 page error
+                    display = <Error404 message={`The album your requested '${search.albumSlug}' could not be found`} />;
+                }
     
             } else {
                 // if 'title' was not in the search then we'll filter using the user's filters
-                const { albums, artist, genre } = this.filterAlbums(search);
+                const { albums, artist, genre } = musicAppStore.filterAlbums(search);
+                console.log(albums)
                 const filterheading = `filtered by ${Object.keys(search).map((key) => search[key]).join(' and ')}`
                 display = <FilteredAlbums albums={mapAlbumsToIndex(albums)} {...{artist, genre, filterheading}} />;
             };

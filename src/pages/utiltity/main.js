@@ -1,3 +1,11 @@
+export const cases = {
+    HUNGARIAN_NOTATION: 'HN',
+    NORMAL_CASE: 'NR',
+    CAMEL_CASE: 'CS',
+    SNAKE_CASE: 'SC',
+};
+
+
 /**
  * @param {string} query
  * @returns {object} object of params in a search query if not? null is returned.
@@ -28,8 +36,8 @@ export function cleanSearchParams (query) {
 
 /**
  * @param {string} toChange
- * @param {string} currentCase
- * @param {string} changeTo
+ * @param {cases} currentCase
+ * @param {cases} changeTo
  * @returns {string} Returns an string in the new case type
 */
 export function caseChanger (toChange, currentCase, changeTo) {
@@ -52,19 +60,19 @@ export function caseChanger (toChange, currentCase, changeTo) {
     let result;
 
     switch (currentCase) {
-        case 'CC':
+        case cases.CAMEL_CASE:
             temp = toChange.split(/([A-Z]{1}[a-z]*)/).filter(Boolean);
             break;
 
-        case 'HN':
+        case cases.HUNGARIAN_NOTATION:
             temp = toChange.split(/([A-Z]{1}[a-z]*)/).filter(Boolean);
             break;
 
-        case 'SC':
+        case cases.SNAKE_CASE:
             temp = toChange.split("_");
             break;
 
-        case 'NR':
+        case cases.NORMAL_CASE:
             temp = toChange.split(/\s/);
             break;
     
@@ -74,11 +82,11 @@ export function caseChanger (toChange, currentCase, changeTo) {
 
 
     switch (changeTo) {
-        case 'CC':
+        case cases.CAMEL_CASE:
             result = temp.map((char) => `${char[0].toUpperCase()}${char.substring(1).toLowerCase()}`).join('');
             break;
 
-        case 'HN':
+        case cases.HUNGARIAN_NOTATION:
             result = temp.map((char, index) => {
                 char = char.toLowerCase();
                 if (index > 0) {
@@ -89,11 +97,11 @@ export function caseChanger (toChange, currentCase, changeTo) {
             }).join('');
             break;
 
-        case 'SC':
+        case cases.SNAKE_CASE:
             result = temp.map((char) => char.toLowerCase()).join('_');
             break;
 
-        case 'NR':
+        case cases.NORMAL_CASE:
             result = temp.map((char) => char.toLowerCase()).join(' ');
             break;
 

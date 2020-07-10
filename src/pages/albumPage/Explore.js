@@ -1,7 +1,10 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import { AlbumIndex, ArtistIndex } from '../indexPage/IndexUtility';
+import { AlbumIndex, ArtistIndex, NoSuchAvailable } from '../indexPage/IndexUtility';
+import { caseChanger, cases } from '../utiltity/main';
+
+import musicAppStore from '../../Stores/MusicAppStore';
 
 
 import '../css/explore_albums.css';
@@ -42,12 +45,17 @@ export function SmallGenre (props) {
     /* 
         small rounded border genre
     */
-    return <NavLink className="small-genre-link" to={`/genres?genreName=${props.genreSlug}`}>{props.genre}</NavLink>
+    return <NavLink className="small-genre-link" to={`/albums?genre=${props.genreSlug}`}>{props.genreName}</NavLink>
 }
 
 
 
 export default class Explore extends React.Component {
+    state = {
+        genres: musicAppStore.fetchGenres(5, 'explore'),
+        albumCategories: musicAppStore.categories.albumCategories
+    };
+
     componentDidMount () {
         // hide the top search bar
         document.getElementById('top-search-bar').style.display = 'none';
@@ -56,9 +64,24 @@ export default class Explore extends React.Component {
     componentWillUnmount () {
         // show the top search bar
         document.getElementById('top-search-bar').style.display = '';
-    }
+    };
 
     render () {
+        // small genres
+        const smallGenres = this.state.genres.length > 0? this.state.genres.map((genre, index) => {
+            return <SmallGenre key={index} {...genre} />
+        }): <NoSuchAvailable lack={'genres'} />;
+
+        // album categories
+        const categories = Object.keys(this.state.albumCategories).map((key, index) => {
+            const value = this.state.albumCategories[key];
+            // change to appropriate notation
+            const name = caseChanger(key, cases.HUNGARIAN_NOTATION, cases.NORMAL_CASE);
+
+            return <Category key={index} categoryName={name} {...value} />
+        })
+
+
         return (
             <div className="container">
                 <h2 className="text-center">Explore Albums</h2>
@@ -79,12 +102,12 @@ export default class Explore extends React.Component {
                 <div className="explorer-genres">
                     <h2>by Genres</h2>
                     <div className="row">
-                        {/* {smallGenres} */}
+                        {smallGenres}
                     </div>
                 </div>
 
                 <hr />
-                {/* {categories} */}
+                {categories}
 
             </div>
         )
