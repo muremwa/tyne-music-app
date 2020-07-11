@@ -70,11 +70,11 @@ function SpecialSearchFeatures (props) {
     let features = [];
 
     if (props.artist) {
-        features.push(<ArtistIndex {...props.artist} />);
+        features.push(<ArtistIndex key={1} {...props.artist} />);
     };
 
     if (props.genre) {
-        features.push(<GenreIndex {...props.genre} />);
+        features.push(<GenreIndex key={2} {...props.genre} />);
     };
 
     if (features.length === 0) {

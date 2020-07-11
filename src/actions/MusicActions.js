@@ -17,7 +17,7 @@ export function fetchHomeData() {
 export function fetchAlbumCategories () {
     // code to fetch from the back-end goes here!
 
-    const { albumCategories } = data;
+    const albumCategories = data.album_categories;
 
     dispatcher.dispatch({
         type: actions.FETCH_ALBUMS_CATEGORIES,
@@ -29,7 +29,7 @@ export function fetchAlbumCategories () {
 export function fetchGenreCategories (genreSlug) {
     // code to fetch from the back-end goes here!
 
-    const { genreCategories } = data;
+    const genreCategories = data.genre_categories;
 
     dispatcher.dispatch({
         type: actions.FETCH_GENRE_CATEGORIES,

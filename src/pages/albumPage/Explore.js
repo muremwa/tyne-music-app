@@ -3,12 +3,10 @@ import { NavLink } from 'react-router-dom';
 
 import { AlbumIndex, ArtistIndex, NoSuchAvailable } from '../indexPage/IndexUtility';
 import { caseChanger, cases } from '../utiltity/main';
-
 import musicAppStore from '../../Stores/MusicAppStore';
-
+import changes from '../../Stores/Changes';
 
 import '../css/explore_albums.css';
-import changes from '../../Stores/Changes';
 
 
 
@@ -41,14 +39,12 @@ export function Category (props) {
 }
 
 
-
 export function SmallGenre (props) {
     /* 
         small rounded border genre
     */
     return <NavLink className="small-genre-link" to={`/albums?genre=${props.genreSlug}`}>{props.genreName}</NavLink>
 }
-
 
 
 export default class Explore extends React.Component {
@@ -95,7 +91,6 @@ export default class Explore extends React.Component {
 
             return <Category key={index} categoryName={name} {...value} />
         })
-
 
         return (
             <div className="container">

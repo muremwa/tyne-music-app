@@ -1,9 +1,10 @@
 import { EventEmitter } from 'events';
 
+import { fetchAlbumCategories, fetchGenreCategories } from '../actions/MusicActions';
+import { cases, caseChanger } from '../pages/utiltity/main';
 import musicDispatcher from '../dispatcher/dispatcher';
 import actions from '../actions/DispatchActions';
 import changes from './Changes';
-import { fetchAlbumCategories, fetchGenreCategories } from '../actions/MusicActions';
 
 
 class MusicAppStore extends EventEmitter {
@@ -13,6 +14,12 @@ class MusicAppStore extends EventEmitter {
     categories = {
         albumCategories: {},
         genreCategories: {}
+    };
+
+    constructor() {
+        super();
+        this.genericCleaner = this.genericCleaner.bind(this);
+        this.isObject = (item) => typeof item === 'object' && item !== null;
     };
 
     fetchAlbums () {
@@ -76,25 +83,54 @@ class MusicAppStore extends EventEmitter {
         return this.artists[0];
     };
 
+    genericCleaner (obj) {
+        /* 
+            clean generic data from the backend recursively!!!😮😮😮😃😃😃
+        */
+    
+        if (!this.isObject(obj)) {
+            return {};
+        };
+
+        // create a new object holder
+        const newObj = {};
+
+        // loop through all items and change case
+        for (let key of Object.keys(obj)) {
+            const newKey = caseChanger(key, cases.SNAKE_CASE, cases.HUNGARIAN_NOTATION);
+            let value = obj[key];
+
+            // recursively clean arrays and other objects
+            if (Array.isArray(value)) {
+                value = value.map(this.genericCleaner);
+            } else if (this.isObject(value)) {
+                value = this.genericCleaner(value);
+            };
+
+            newObj[newKey] = value;
+        };
+
+        return newObj;
+    };
 
     handleActions (action) {
         switch (action.type) {
             case actions.FETCH_INIT_DATA:
                 const { albums, genres, artists } = action.payload;
-                this.albums = albums;
-                this.artists = artists;
-                this.genres = genres;
+                this.albums = [...this.albums, ...albums.map(this.genericCleaner)];
+                this.genres = [...this.genres, ...genres.map(this.genericCleaner)];
+                this.artists = [...this.artists, ...artists.map(this.genericCleaner)];
                 this.emit(changes.CHANGE_IN_ALL_DATA);
                 break;
 
             case actions.FETCH_ALBUMS_CATEGORIES:
-                this.categories.albumCategories = action.payload;
+                this.categories.albumCategories = this.genericCleaner(action.payload);
                 break;
 
             case actions.FETCH_GENRE_CATEGORIES:
                 this.categories.genreCategories = Object.assign(
                     this.categories.genreCategories,
-                    action.payload
+                    this.genericCleaner(action.payload)
                 );
                 break;
 
