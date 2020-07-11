@@ -11,15 +11,7 @@ import changes from '../../Stores/Changes';
 
 
 function ListGenres (props) {
-    const fetchGenres = (filter) => {
-        let raw
-        if (filter) {
-            raw = musicAppStore.filterGenres(filter);
-        } else {
-            raw = musicAppStore.fetchGenres();
-        };
-        return raw;
-    };
+    const fetchGenres = (filter) => filter? musicAppStore.filterGenres(filter): musicAppStore.fetchGenres();
 
     const [ rawGenres, newRawGenres ] = useState(fetchGenres(props.filter));
 
@@ -29,6 +21,7 @@ function ListGenres (props) {
     // function to update genres
     const updateRawGenres = () => newRawGenres(fetchGenres(props.filter));
 
+    // when changes are made to the store, rerender
     useEffect(() => {
         musicAppStore.on(changes.CHANGE_IN_ALL_DATA, updateRawGenres)
 
