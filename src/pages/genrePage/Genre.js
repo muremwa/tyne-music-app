@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { cleanSearchParams, caseChanger } from '../utiltity/main';
 import { Category } from '../albumPage/Explore';
@@ -6,11 +6,36 @@ import { GenreIndex, NoSuchAvailable } from '../indexPage/IndexUtility';
 
 import musicAppStore from '../../Stores/MusicAppStore';
 import '../css/genre.css';
+import changes from '../../Stores/Changes';
 
 
 
 function ListGenres (props) {
-    const genres = props.items.length > 0? props.items.map((genre, index) => <GenreIndex key={index} {...genre} />): <NoSuchAvailable lack={"genres"} />
+    const fetchGenres = (filter) => {
+        let raw
+        if (filter) {
+            raw = musicAppStore.filterGenres(filter);
+        } else {
+            raw = musicAppStore.fetchGenres();
+        };
+        return raw;
+    };
+
+    const [ rawGenres, newRawGenres ] = useState(fetchGenres(props.filter));
+
+    // map genres to their props
+    const genres = rawGenres.length > 0? rawGenres.map((genre, index) => <GenreIndex key={index} {...genre} />): <NoSuchAvailable lack={"genres"} />
+
+    // function to update genres
+    const updateRawGenres = () => newRawGenres(fetchGenres(props.filter));
+
+    useEffect(() => {
+        musicAppStore.on(changes.CHANGE_IN_ALL_DATA, updateRawGenres)
+
+        return () => {
+            musicAppStore.removeListener(changes.CHANGE_IN_ALL_DATA, updateRawGenres)
+        };
+    });
 
     return (
         <div>
@@ -19,8 +44,8 @@ function ListGenres (props) {
                 {genres}
             </div>
         </div>
-    )
-}
+    );
+};
 
 
 function SingleGenre (props) {
@@ -73,10 +98,10 @@ export default class Genre extends React.Component {
                 const genre = musicAppStore.getGenre(search.genreName);
                 display = <SingleGenre {...genre} />
             } else {
-                display = <ListGenres items={musicAppStore.filterGenres(search)} />;
+                display = <ListGenres filter={search} />;
             };
         } else {
-            display = <ListGenres items={musicAppStore.fetchGenres()} />;
+            display = <ListGenres />;
         };
 
         return (

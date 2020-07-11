@@ -1,11 +1,10 @@
 import React from 'react';
-import '../css/index_page.css';
 
 import { AlbumIndex, ArtistIndex, GenreIndex, NoSuchAvailable } from './IndexUtility';
-import { fetchHomeData } from '../../actions/MusicActions';
-
 import changes from '../../Stores/Changes';
 import musicAppStore from '../../Stores/MusicAppStore';
+
+import '../css/index_page.css';
 
 export default class HomePage extends React.Component {
     state = {
@@ -21,7 +20,6 @@ export default class HomePage extends React.Component {
 
     componentDidMount () {
         musicAppStore.on(changes.CHANGE_IN_ALL_DATA, this.getInitData);
-        fetchHomeData();
     };
 
     componentWillUnmount () {

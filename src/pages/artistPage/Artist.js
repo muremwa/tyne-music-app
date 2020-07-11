@@ -7,6 +7,7 @@ import { SmallGenre } from '../albumPage/Explore';
 import musicAppStore from '../../Stores/MusicAppStore';
 
 import '../css/artist.css';
+import changes from '../../Stores/Changes';
 
 
 function SingleArtist (props) {
@@ -74,6 +75,25 @@ function MultipleArtists (props) {
 export default class Artist extends React.Component {
     state = {
         artists: musicAppStore.fetchArtists()
+    };
+
+    constructor () {
+        super();
+        this.getArtists = this.getArtists.bind(this);
+    };
+
+    getArtists () {
+        this.setState({
+            artists: musicAppStore.fetchArtists()  
+        });
+    };
+
+    componentDidMount () {
+        musicAppStore.on(changes.CHANGE_IN_ALL_DATA, this.getArtists);
+    };
+
+    componentWillUnmount () {
+        musicAppStore.removeListener(changes.CHANGE_IN_ALL_DATA, this.getArtists);
     };
 
     render () {

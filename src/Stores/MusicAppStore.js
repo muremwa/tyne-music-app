@@ -3,7 +3,7 @@ import { EventEmitter } from 'events';
 import musicDispatcher from '../dispatcher/dispatcher';
 import actions from '../actions/DispatchActions';
 import changes from './Changes';
-import { fetchHomeData, fetchAlbumCategories, fetchGenreCategories } from '../actions/MusicActions';
+import { fetchAlbumCategories, fetchGenreCategories } from '../actions/MusicActions';
 
 
 class MusicAppStore extends EventEmitter {
@@ -24,17 +24,11 @@ class MusicAppStore extends EventEmitter {
         /* 
             filter albums from the back-end then add the ones here! maybe send those to not include? idk!
         */
-        if (this.genres.length === 0) {
-            fetchHomeData();
-        };
         return {albums: [...this.albums], artist: null, genre: this.genres.find((genre) => genre.genreSlug === 'reggea')};
     };
 
     getAlbum(slug) {
         // get a specific album: if its not here in the front-end, get it from the back-end
-        if (this.genres.length === 0) {
-            fetchHomeData();
-        };
         const album = this.albums[0];
         return album;
     };
@@ -48,11 +42,6 @@ class MusicAppStore extends EventEmitter {
                 fetchAlbumCategories();
             };
         };
-
-        if (this.genres.length === 0) {
-            fetchHomeData();
-        };
-
         const limit = arguments[0] === undefined? this.genres.length: arguments[0];
         return [...this.genres].splice(0, limit);
     }
@@ -60,18 +49,12 @@ class MusicAppStore extends EventEmitter {
     filterGenres (query) {
         /* 
             Filter genres?
-        */
-        if (this.genres.length === 0) {
-            fetchHomeData();
-        };
+        */;
         return this.genres;
     };
 
     getGenre (genreName) {
         // get an individual genre? from here first, if not there get it from the back-end
-        if (this.genres.length === 0) {
-            fetchHomeData();
-        };
         fetchGenreCategories(genreName)
         const genre = this.genres[0];
         genre.categories = this.categories.genreCategories[genreName];
@@ -82,10 +65,6 @@ class MusicAppStore extends EventEmitter {
         /* 
             return all artists in store or retireve from the backend!
         */
-        if (this.genres.length === 0) {
-            fetchHomeData();
-        };
-
         return this.artists;
     }
 

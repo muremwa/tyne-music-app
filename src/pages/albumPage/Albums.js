@@ -2,7 +2,6 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { cleanSearchParams } from '../utiltity/main';
-
 import { AlbumIndex, NoSuchAvailable, ArtistIndex, GenreIndex } from '../indexPage/IndexUtility';
 import Error404 from '../utiltity/Error404';
 import musicAppStore from '../../Stores/MusicAppStore';
@@ -114,12 +113,7 @@ function FilteredAlbums(props) {
 
 
 
-export default class Album extends React.Component {
-    state = {
-        albums: []
-    }
-
-    
+export default class Album extends React.Component {   
     render () {
         const search = cleanSearchParams(this.props.location.search);
         let display;
@@ -150,7 +144,7 @@ export default class Album extends React.Component {
             };
         } else {
             // This shall give a page to browse albums
-            display = <Explore />
+            display = <Explore />;
         };
         
         return (

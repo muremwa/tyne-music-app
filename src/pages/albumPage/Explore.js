@@ -8,6 +8,7 @@ import musicAppStore from '../../Stores/MusicAppStore';
 
 
 import '../css/explore_albums.css';
+import changes from '../../Stores/Changes';
 
 
 
@@ -56,14 +57,28 @@ export default class Explore extends React.Component {
         albumCategories: musicAppStore.categories.albumCategories
     };
 
+    constructor () {
+        super();
+        this.getExploreData = this.exploreData.bind(this);
+    };
+
+    exploreData () {
+        this.setState({
+            genres: musicAppStore.fetchGenres(5),
+            albumCategories: musicAppStore.categories.albumCategories
+        });
+    };
+
     componentDidMount () {
         // hide the top search bar
         document.getElementById('top-search-bar').style.display = 'none';
+        musicAppStore.on(changes.CHANGE_IN_ALL_DATA, this.getExploreData);
     };
 
     componentWillUnmount () {
         // show the top search bar
         document.getElementById('top-search-bar').style.display = '';
+        musicAppStore.removeListener(changes.CHANGE_IN_ALL_DATA, this.getExploreData);
     };
 
     render () {
