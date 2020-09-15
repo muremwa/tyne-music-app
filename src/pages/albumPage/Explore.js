@@ -2,7 +2,6 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 import { AlbumIndex, ArtistIndex, NoSuchAvailable } from '../indexPage/IndexUtility';
-import { caseChanger, cases } from '../utiltity/main';
 import musicAppStore from '../../Stores/MusicAppStore';
 import changes from '../../Stores/Changes';
 

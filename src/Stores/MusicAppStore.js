@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 
-import { fetchAlbumCategories, fetchGenreCategories } from '../actions/MusicActions';
+import { fetchGenreCategories, fetchAlbum } from '../actions/MusicActions';
 import { cases, caseChanger } from '../pages/utiltity/main';
 import musicDispatcher from '../dispatcher/dispatcher';
 import actions from '../actions/DispatchActions';
@@ -13,6 +13,7 @@ class MusicAppStore extends EventEmitter {
     artists = [];
     categories = {
         albumCategories: [],
+        artistCategories: [],
         genreCategories: []
     };
 
@@ -20,6 +21,14 @@ class MusicAppStore extends EventEmitter {
         super();
         this.genericCleaner = this.genericCleaner.bind(this);
         this.isObject = (item) => typeof item === 'object' && item !== null;
+    };
+
+    getSongs (albumSlug) {
+        /* 
+            Fetch all songs of an album from store only
+        */
+        const album = this.albums.find((album) => album.albumSlug === albumSlug);
+        return album && typeof album.songs !== 'string'? album.songs: null;
     };
 
     fetchAlbums () {
@@ -36,7 +45,11 @@ class MusicAppStore extends EventEmitter {
 
     getAlbum(slug) {
         // get a specific album: if its not here in the front-end, get it from the back-end
-        const album = this.albums[0];
+        const album = this.albums.find((album) => album.albumSlug === slug);
+        
+        if (!album) {
+            fetchAlbum(slug);
+        };
         return album;
     };
 
@@ -117,6 +130,14 @@ class MusicAppStore extends EventEmitter {
                 this.artists = [...this.artists, ...artists.map(this.genericCleaner)];
                 this.categories = this.genericCleaner(categories);
                 this.emit(changes.CHANGE_IN_ALL_DATA);
+                break;
+
+            case actions.FETCH_ALBUM_SONGS:
+                const album = this.albums.find((album) => album.albumSlug === action.payload.albumSlug);
+                if (album) {
+                    album.songs = action.payload.songs.map(this.genericCleaner);
+                };
+                this.emit(`CHANGE_IN_${action.payload.albumSlug.toUpperCase()}_SONGS`);
                 break;
 
             default:

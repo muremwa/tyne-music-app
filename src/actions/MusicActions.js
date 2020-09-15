@@ -38,3 +38,30 @@ export function fetchGenreCategories (genreSlug) {
         }
     });
 };
+
+
+export function fetchAlbumSongs (albumSlug, songsUrl) {
+    /* 
+        GET the songs of an album
+    */
+    const dispatchAlbumSongs = (data) => {
+        dispatcher.dispatch({
+            type: actions.FETCH_ALBUM_SONGS,
+            payload: {
+                albumSlug,
+                songs: data
+            }
+        })
+    }
+
+    const fetchSongOptions = {
+        url: songsUrl,
+        responseType: 'json',
+        error: () => {},
+        success: (payload) => {
+            dispatchAlbumSongs(payload.response)
+        }
+    };
+
+    ajax.get(fetchSongOptions);
+};
