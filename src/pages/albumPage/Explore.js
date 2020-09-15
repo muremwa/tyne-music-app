@@ -83,15 +83,6 @@ export default class Explore extends React.Component {
             return <SmallGenre key={index} {...genre} />
         }): <NoSuchAvailable lack={'genres'} />;
 
-        // album categories
-        // const categories = Object.keys(this.state.albumCategories).map((key, index) => {
-        //     const value = this.state.albumCategories[key];
-        //     // change to appropriate notation
-        //     const name = caseChanger(key, cases.HUNGARIAN_NOTATION, cases.NORMAL_CASE);
-
-        //     return <Category key={index} categoryName={name} {...value} />
-        // })
-
         const categories = this.state.albumCategories.map((category, index) => <Category key={index} {...category} />)
 
         return (
