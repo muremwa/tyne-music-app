@@ -12,8 +12,8 @@ class MusicAppStore extends EventEmitter {
     genres = [];
     artists = [];
     categories = {
-        albumCategories: {},
-        genreCategories: {}
+        albumCategories: [],
+        genreCategories: []
     };
 
     constructor() {
@@ -44,11 +44,6 @@ class MusicAppStore extends EventEmitter {
         /* 
             fetch all genres from store or back-end
         */
-        if (arguments[1] === 'explore') {
-            if (this.categories.albumCategoriess === undefined) {
-                fetchAlbumCategories();
-            };
-        };
         const limit = arguments[0] === undefined? this.genres.length: arguments[0];
         return [...this.genres].splice(0, limit);
     }
@@ -85,7 +80,7 @@ class MusicAppStore extends EventEmitter {
 
     genericCleaner (obj) {
         /* 
-            clean generic data from the backend recursively!!!😮😮😮😃😃😃
+            clean generic data from the backend recursively!!!
         */
     
         if (!this.isObject(obj)) {
@@ -116,22 +111,12 @@ class MusicAppStore extends EventEmitter {
     handleActions (action) {
         switch (action.type) {
             case actions.FETCH_INIT_DATA:
-                const { albums, genres, artists } = action.payload;
+                const { albums, genres, artists, categories } = action.payload;
                 this.albums = [...this.albums, ...albums.map(this.genericCleaner)];
                 this.genres = [...this.genres, ...genres.map(this.genericCleaner)];
                 this.artists = [...this.artists, ...artists.map(this.genericCleaner)];
+                this.categories = this.genericCleaner(categories);
                 this.emit(changes.CHANGE_IN_ALL_DATA);
-                break;
-
-            case actions.FETCH_ALBUMS_CATEGORIES:
-                this.categories.albumCategories = this.genericCleaner(action.payload);
-                break;
-
-            case actions.FETCH_GENRE_CATEGORIES:
-                this.categories.genreCategories = Object.assign(
-                    this.categories.genreCategories,
-                    this.genericCleaner(action.payload)
-                );
                 break;
 
             default:

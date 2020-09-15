@@ -1,28 +1,28 @@
 import data from './test_data.json';
 import actions from './DispatchActions';
 import dispatcher from '../dispatcher/dispatcher';
+import ajax from './ajaxWrapper';
 
 export function fetchHomeData() {
-    // code to fetch from back-end goes here!
+    const dispatchHomeData = (data) => {
+        const { albums, artists, genres, categories } = data;
 
-    const { albums, artists, genres } = data;
+        dispatcher.dispatch ({
+            type: actions.FETCH_INIT_DATA,
+            payload: {albums, artists, genres, categories}
+        });
+    };
 
-    dispatcher.dispatch ({
-        type: actions.FETCH_INIT_DATA,
-        payload: {albums, artists, genres}
-    });    
-};
+    const homeOptions = {
+        url: '/api/home-data/',
+        responseType: 'json',
+        success: (response) => {
+            dispatchHomeData(response.response);
+        },
+        error: () => {}
+    }
 
-
-export function fetchAlbumCategories () {
-    // code to fetch from the back-end goes here!
-
-    const albumCategories = data.album_categories;
-
-    dispatcher.dispatch({
-        type: actions.FETCH_ALBUMS_CATEGORIES,
-        payload: albumCategories
-    });
+    ajax.get(homeOptions);
 };
 
 
