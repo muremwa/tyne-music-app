@@ -5,6 +5,7 @@ import changes from '../../Stores/Changes';
 import musicAppStore from '../../Stores/MusicAppStore';
 
 import '../css/index_page.css';
+import { fetchHomeData } from '../../actions/MusicActions';
 
 export default class HomePage extends React.Component {
     state = {
@@ -19,7 +20,10 @@ export default class HomePage extends React.Component {
     };
 
     componentDidMount () {
-        musicAppStore.on(changes.CHANGE_IN_ALL_DATA, this.getInitData);
+        if (musicAppStore.initHomeData) {
+            fetchHomeData()
+            musicAppStore.on(changes.CHANGE_IN_ALL_DATA, this.getInitData);
+        }
     };
 
     componentWillUnmount () {

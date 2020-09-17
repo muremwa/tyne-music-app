@@ -8,6 +8,7 @@ import changes from './Changes';
 
 
 class MusicAppStore extends EventEmitter {
+    initHomeData = true;
     albums = [];
     genres = [];
     artists = [];
@@ -121,15 +122,30 @@ class MusicAppStore extends EventEmitter {
         return newObj;
     };
 
+    uniqueItemsPreservingArray1(arrayOne, arrayTwo, identifier) {
+        return [...arrayOne, ...arrayTwo.filter((item) => arrayOne.findIndex((_item) => _item[identifier] === item[identifier]) === -1)];
+    };
+
     handleActions (action) {
         switch (action.type) {
             case actions.FETCH_INIT_DATA:
                 const { albums, genres, artists, categories } = action.payload;
-                this.albums = [...this.albums, ...albums.map(this.genericCleaner)];
-                this.genres = [...this.genres, ...genres.map(this.genericCleaner)];
-                this.artists = [...this.artists, ...artists.map(this.genericCleaner)];
+                this.albums = this.uniqueItemsPreservingArray1(this.albums, albums.map(this.genericCleaner), 'albumSlug');
+                this.genres = this.uniqueItemsPreservingArray1(this.genres, genres.map(this.genericCleaner), 'genreSlug');
+                this.artists = this.uniqueItemsPreservingArray1(this.artists, artists.map(this.genericCleaner), 'artistSlug');
                 this.categories = this.genericCleaner(categories);
+                this.initHomeData = false;
                 this.emit(changes.CHANGE_IN_ALL_DATA);
+                break;
+
+            case actions.FETCH_ALBUM:
+                const cleanAlbum = this.genericCleaner(action.payload);
+                
+                // make sure the album isn't there
+                if (this.albums.findIndex((album) => albums.albumSlug === cleanAlbum.albumSlug) === -1) {
+                    this.albums.push(cleanAlbum)
+                    this.emit(`FETCHED_${cleanAlbum.albumSlug.toUpperCase()}`);
+                };
                 break;
 
             case actions.FETCH_ALBUM_SONGS:

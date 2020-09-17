@@ -40,6 +40,30 @@ export function fetchGenreCategories (genreSlug) {
 };
 
 
+export function fetchAlbum (albumSlug) {
+    /* 
+        Get an album from the backend
+    */
+    const dispatchAlbum = (album) => {
+        dispatcher.dispatch({
+            type: actions.FETCH_ALBUM,
+            payload: album
+        });
+    };
+
+    const albumFetchOptions = {
+        url: `/api/albums/${albumSlug}/`,
+        responseType: 'json',
+        error: () => {},
+        success: (response) => {
+            dispatchAlbum(response.response);
+        }
+    };
+
+    ajax.get(albumFetchOptions);    
+};
+
+
 export function fetchAlbumSongs (albumSlug, songsUrl) {
     /* 
         GET the songs of an album
