@@ -5,6 +5,7 @@ const actions = {
     FETCH_ALBUM: "F_AL",
     FETCH_ARTISTS: "F_A_S",
     FETCH_ARTIST: "F_A",
+    FETCH_ARTIST_ALBUMS: "F_A_AL",
     FETCH_GENRES: "F_G_S",
     FETCH_GENRE: "F_G",
     FETCH_GENRE_CATEGORIES: "F_G_C",

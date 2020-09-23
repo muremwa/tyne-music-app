@@ -4,6 +4,7 @@ import dispatcher from '../dispatcher/dispatcher';
 import ajax from './ajaxWrapper';
 
 export function fetchHomeData() {
+    console.log('fetched home data')
     const dispatchHomeData = (data) => {
         const { albums, artists, genres, categories } = data;
 
@@ -63,6 +64,29 @@ export function fetchAlbum (albumSlug) {
     ajax.get(albumFetchOptions);    
 };
 
+export function fetchArtist (artistSlug) {
+    /* 
+        Get an album from the backend
+    */
+    const dispatchAlbum = (artist) => {
+        dispatcher.dispatch({
+            type: actions.FETCH_ARTIST,
+            payload: artist
+        });
+    };
+
+    const albumFetchOptions = {
+        url: `/api/artists/${artistSlug}/`,
+        responseType: 'json',
+        error: () => {},
+        success: (response) => {
+            dispatchAlbum(response.response);
+        }
+    };
+
+    ajax.get(albumFetchOptions);    
+};
+
 
 export function fetchAlbumSongs (albumSlug, songsUrl) {
     /* 
@@ -88,4 +112,25 @@ export function fetchAlbumSongs (albumSlug, songsUrl) {
     };
 
     ajax.get(fetchSongOptions);
+};
+
+
+export function fetchArtistAlbums (artistSlug) {
+    const dispatchArtistAlbums = (albums) => {
+        dispatcher.dispatch({
+            type: actions.FETCH_ARTIST_ALBUMS,
+            payload: albums
+        })
+    };
+
+    const artistAlbumOptions = {
+        url: `/api/albums/?artist=${artistSlug}`,
+        responseType: 'json',
+        error: () => {},
+        success: (reponse) => {
+            dispatchArtistAlbums(reponse.response);
+        }
+    };
+
+    ajax.get(artistAlbumOptions);
 };

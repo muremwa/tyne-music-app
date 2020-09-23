@@ -41,7 +41,16 @@ class MusicAppStore extends EventEmitter {
         /* 
             filter albums from the back-end then add the ones here! maybe send those to not include? idk!
         */
-        return {albums: [...this.albums], artist: null, genre: this.genres.find((genre) => genre.genreSlug === 'reggea')};
+        let _albums = [];
+
+        if (Object.keys(query).length) {
+            _albums = this.albums;
+
+            if (query.hasOwnProperty('artist')) {
+                _albums = _albums.filter((album) => album.artistSlug === query.artist);
+            };
+        };
+        return {albums: [..._albums], artist: null, genre: this.genres.find((genre) => genre.genreSlug === 'reggea')};
     };
 
     getAlbum(slug) {
@@ -89,7 +98,8 @@ class MusicAppStore extends EventEmitter {
     };
 
     getArtist (artistSlug) {
-        return this.artists[0];
+        const artist = this.artists.find((artist) => artist.artistSlug === artistSlug);
+        return artist;
     };
 
     genericCleaner (obj) {
@@ -154,6 +164,12 @@ class MusicAppStore extends EventEmitter {
                     album.songs = action.payload.songs.map(this.genericCleaner);
                 };
                 this.emit(`CHANGE_IN_${action.payload.albumSlug.toUpperCase()}_SONGS`);
+                break;
+
+            case actions.FETCH_ARTIST:
+                const artist = this.genericCleaner(action.payload.artist);
+                this.artists.push(artist);
+                this.emit(`FETCHED_ARTIST_${artist.artistSlug.toUpperCase()}`);
                 break;
 
             default:
