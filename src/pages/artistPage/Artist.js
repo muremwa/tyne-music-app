@@ -25,7 +25,8 @@ function SingleArtist (props) {
     const [loadAlbums, setLoad] = useState(true);
     const albumCount = _albums.length > 0? _albums.length: 'No';
     const albums = _albums.length > 0? _albums.map((album, index) => <AlbumIndex key={index} {...album} />): <NoSuchAvailable lack={"albums"} />;
-    const genres = _albums.length > 0? _albums.map((album, index) => <SmallGenre key={index} {...album.genre} />): <NoSuchAvailable lack={"genres"} />;
+    const cleanGenreAlbums = _albums.filter((album) => album.genre !== null);
+    const genres = cleanGenreAlbums.length > 0? cleanGenreAlbums.map((album, index) => <SmallGenre key={index} {...album.genre} />): <NoSuchAvailable lack={"genres"} />;
 
     if (_albums.length === 0 && loadAlbums) {
         setLoad(false);
@@ -104,13 +105,13 @@ function IndividualArtist (props) {
     });
 
     let display = <Error404 message={`Could not find the artist '${props.artistSlug}'.`} />;
-
     if (artist) {
         display = <SingleArtist {...artist} />;
     } else {
         fetchArtist(props.artistSlug);
     };
     musicAppStore.initHomeData = true;
+    
     return display;
 };
 

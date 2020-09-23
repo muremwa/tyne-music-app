@@ -66,7 +66,7 @@ function IndividualSingleAlbum (props) {
                     <img id="cover-image" src={props.albumCover} alt="cover for #" />
 
                     <ul id="more-info">
-                        <li>{albumSongs.length} songs on the the album</li>
+                        <li>{albumSongs.length? albumSongs.length: 'No'} songs on the the album</li>
                         <hr />
                         <li>More info<br />{props.description}</li>
                     </ul> 
@@ -84,10 +84,7 @@ function IndividualSingleAlbum (props) {
 
 export default function SingleAlbum (props) {
     const _album = musicAppStore.getAlbum(props.albumSlug);
-    let display;
-
     const [album, albumChanger] = useState(_album);
-
     const setAlbum = () => albumChanger(musicAppStore.getAlbum(props.albumSlug));
     const albumChange = `FETCHED_${props.albumSlug.toUpperCase()}`;
 
@@ -99,12 +96,11 @@ export default function SingleAlbum (props) {
         return () => musicAppStore.removeListener(albumChange, setAlbum);
     });
 
+    let display = <Error404 message={`The album your requested '${props.albumSlug}' could not be found.`} />;
     if (album) {
         // if the album is found (however it's found is none of this component's business) Show it
         display = <IndividualSingleAlbum {...album} />;
-    } else {
-        // show a 404 page error
-        display = <Error404 message={`The album your requested '${props.albumSlug}' could not be found.`} />;
     }
+
     return display;
 };
