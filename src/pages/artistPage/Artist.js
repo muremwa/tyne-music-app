@@ -91,13 +91,16 @@ function IndividualArtist (props) {
     musicAppStore.initHomeData = false;
     const _artist = musicAppStore.getArtist(props.artistSlug);
     const [artist, artistChanger] = useState(_artist);
+
+    const artistChange = `FETCHED_ARTIST_${props.artistSlug.toUpperCase()}`;
+    const setArtist = () => artistChanger(musicAppStore.getArtist(props.artistSlug));
     
     useEffect(() => {
         if (!artist) {
-            musicAppStore.on(`FETCHED_ARTIST_${props.artistSlug.toUpperCase()}`, () => {
-                artistChanger(musicAppStore.getArtist(props.artistSlug));
-            });
+            musicAppStore.on(artistChange, setArtist);
         };
+
+        return () => musicAppStore.removeListener(artistChange, setArtist);
     });
 
     let display = <Error404 message={`Could not find the artist '${props.artistSlug}'.`} />;

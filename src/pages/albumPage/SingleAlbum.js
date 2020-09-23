@@ -88,12 +88,15 @@ export default function SingleAlbum (props) {
 
     const [album, albumChanger] = useState(_album);
 
+    const setAlbum = () => albumChanger(musicAppStore.getAlbum(props.albumSlug));
+    const albumChange = `FETCHED_${props.albumSlug.toUpperCase()}`;
+
     useEffect(() => {
         if (!album) {
-            musicAppStore.on(`FETCHED_${props.albumSlug.toUpperCase()}`, () => {
-                albumChanger(musicAppStore.getAlbum(props.albumSlug));
-            });
+            musicAppStore.on(albumChange, setAlbum);
         };
+
+        return () => musicAppStore.removeListener(albumChange, setAlbum);
     });
 
     if (album) {
