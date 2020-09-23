@@ -172,6 +172,11 @@ class MusicAppStore extends EventEmitter {
                 this.emit(`FETCHED_ARTIST_${artist.artistSlug.toUpperCase()}`);
                 break;
 
+            case actions.FETCH_ARTIST_ALBUMS:
+                this.albums = this.uniqueItemsPreservingArray1(this.albums, action.payload.albums.map(this.genericCleaner), 'albumSlug');
+                this.emit(`FETCHED_${action.payload.artist.toUpperCase()}_ALBUMS`);
+                break;
+
             default:
                 break;
         };

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { cleanSearchParams } from '../utiltity/main';
 import { AlbumIndex, NoSuchAvailable, ArtistIndex } from '../indexPage/IndexUtility';
 import { SmallGenre } from '../albumPage/Explore';
-import { fetchHomeData, fetchArtist } from '../../actions/MusicActions';
+import { fetchHomeData, fetchArtist, fetchArtistAlbums } from '../../actions/MusicActions';
 import changes from '../../Stores/Changes';
 import musicAppStore from '../../Stores/MusicAppStore';
 import Error404 from '../utiltity/Error404';
@@ -12,30 +12,39 @@ import Error404 from '../utiltity/Error404';
 import '../css/artist.css';
 
 
-function SingleArtistAlbums (props) {
-    const rawAlbums = musicAppStore.filterAlbums({artist: props.artistSlug}).albums;
-    const albums = rawAlbums.length > 0? rawAlbums.map((album, index) => <AlbumIndex key={index} {...album} />): <NoSuchAvailable lack={'albums'} />;
-
-    return (
-        <div id="a-albums">
-            <h3>{rawAlbums.length} albums by {props.name}</h3>
-            <div className="a-album">
-                <div className="row">
-                    {albums}
-                </div>
-            </div>
-        </div>
-    );
-};
-
-
-
 function SingleArtist (props) {
     /* 
         Single artist
     */
-   const rawGenres = musicAppStore.filterGenres({artist: props.name});
-   const genres = rawGenres.length > 0? rawGenres.map((genre, index) => <SmallGenre key={index} {...genre} />): <NoSuchAvailable lack={'genres'} />;
+   
+    const getAlbums = (slug) => {
+        return musicAppStore.filterAlbums({artist: slug}).albums;
+    };
+
+    const [_albums, artistAlbumsChanger] = useState(getAlbums(props.artistSlug));
+    const [loadAlbums, setLoad] = useState(true);
+    const albumCount = _albums.length > 0? _albums.length: 'No';
+    const albums = _albums.length > 0? _albums.map((album, index) => <AlbumIndex key={index} {...album} />): <NoSuchAvailable lack={"albums"} />;
+    const genres = _albums.length > 0? _albums.map((album, index) => <SmallGenre key={index} {...album.genre} />): <NoSuchAvailable lack={"genres"} />;
+
+    if (_albums.length === 0 && loadAlbums) {
+        setLoad(false);
+        fetchArtistAlbums(props.artistSlug);
+    };
+
+    const setAlbums = () => {
+        artistAlbumsChanger(getAlbums(props.artistSlug));
+    };
+
+    useEffect(() => {
+        const change = `FETCHED_${props.artistSlug.toUpperCase()}_ALBUMS`;
+        musicAppStore.on(change, setAlbums);
+
+        return () => {
+            musicAppStore.removeListener(change, setAlbums);
+        };
+    });
+
 
     return (
         <div id="artist-main">
@@ -57,10 +66,17 @@ function SingleArtist (props) {
                                 {genres}
                             </div>
                         </div>
-
                     </div>
                 </div>
-                <SingleArtistAlbums artistSlug={props.artistSlug} name={props.name}/>
+
+                <div id="a-albums">
+                    <h3>{albumCount} albums by {props.name}</h3>
+                    <div className="a-album">
+                        <div className="row">
+                            {albums}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );

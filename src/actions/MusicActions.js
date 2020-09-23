@@ -4,7 +4,6 @@ import dispatcher from '../dispatcher/dispatcher';
 import ajax from './ajaxWrapper';
 
 export function fetchHomeData() {
-    console.log('fetched home data')
     const dispatchHomeData = (data) => {
         const { albums, artists, genres, categories } = data;
 
@@ -84,7 +83,7 @@ export function fetchArtist (artistSlug) {
         }
     };
 
-    ajax.get(albumFetchOptions);    
+    ajax.get(albumFetchOptions);
 };
 
 
@@ -119,7 +118,10 @@ export function fetchArtistAlbums (artistSlug) {
     const dispatchArtistAlbums = (albums) => {
         dispatcher.dispatch({
             type: actions.FETCH_ARTIST_ALBUMS,
-            payload: albums
+            payload: {
+                artist: artistSlug,
+                albums
+            }
         })
     };
 
@@ -128,7 +130,7 @@ export function fetchArtistAlbums (artistSlug) {
         responseType: 'json',
         error: () => {},
         success: (reponse) => {
-            dispatchArtistAlbums(reponse.response);
+            dispatchArtistAlbums(reponse.response.albums);
         }
     };
 
