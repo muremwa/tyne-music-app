@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from 'react';
 
-import { cleanSearchParams, caseChanger } from '../utiltity/main';
+import { cleanSearchParams } from '../utiltity/main';
 import { Category } from '../albumPage/Explore';
 import { GenreIndex, NoSuchAvailable } from '../indexPage/IndexUtility';
-
+import { fetchHomeData, fetchGenre, fetchGenreCategories } from '../../actions/MusicActions';
+import Error404 from '../utiltity/Error404';
 import musicAppStore from '../../Stores/MusicAppStore';
-import '../css/genre.css';
 import changes from '../../Stores/Changes';
+
+import '../css/genre.css';
 
 
 
 function ListGenres (props) {
+    if (musicAppStore.initHomeData) {
+        fetchHomeData();
+    };
+
     const fetchGenres = (filter) => filter? musicAppStore.filterGenres(filter): musicAppStore.fetchGenres();
 
     const [ rawGenres, newRawGenres ] = useState(fetchGenres(props.filter));
@@ -41,20 +47,35 @@ function ListGenres (props) {
 };
 
 
-function SingleGenre (props) {
-    const categories = props.categories !== undefined? Object.keys(props.categories).map((key, index) => {
-        let value = props.categories[key];
-        let forAlbum = true;
-        key = caseChanger(key, 'HN', 'NR');
+function GenreCategories (props) {
+    const [categories, categoriesChanger] = useState(musicAppStore.filterGenreCategories(props.genreSlug));
+    const setCategories = () => categoriesChanger(musicAppStore.filterGenreCategories(props.genreSlug));
+    
+    if (!categories.length) {
+        fetchGenreCategories(props.genreSlug);
+    };
 
-        if (key.includes('artist')) {
-            forAlbum = false;
+    const categoriesFetched = `FETCHED_GENRE_CATEGORIES_FOR_${props.genreSlug}`;
+
+    useEffect(() => {
+        if (!categories.length) {
+            musicAppStore.on(categoriesFetched, setCategories)
         };
 
-        return <Category key={index} categoryName={key} {...value} albumCategory={forAlbum} />;
-    }): [];
+        return () => musicAppStore.removeListener(categoriesFetched, setCategories);
+    })
+
+    const mappedCategories = categories.length? categories.map((category, index) => <Category key={index} {...category} />): <NoSuchAvailable lack={'categories'} />;
+
+    return (
+        <div id="genre-categories" className="container">
+            {mappedCategories}
+        </div>
+    );
+};
 
 
+function SingleGenre (props) {
     return (
         <div className="genre-main">
             <div id="genre-info">
@@ -71,14 +92,34 @@ function SingleGenre (props) {
                 </div>
             </div>
             <hr className="massive-divider" />
-            <div id="genre-categories" className="container">
-                {categories}
-            </div>
+            <GenreCategories genreSlug={props.genreSlug} />
         </div>
-    )
+    );
+};
 
 
-}
+function IndividualGenre (props) {
+    const [genre, changeGenre] = useState(musicAppStore.getGenre(props.genreSlug));
+    const change = `FETCHED_GENRE_${props.genreSlug.toUpperCase()}`;
+    const setGenre = () => changeGenre(musicAppStore.getGenre(props.genreSlug));
+    let display = <Error404 message={`Could not find the genre '${props.genreSlug}'`} />;
+
+    if (genre) {
+        display = <SingleGenre {...genre} />;
+    } else {
+        fetchGenre(props.genreSlug);
+    };
+
+    useEffect(() => {
+        if (!genre) {
+            musicAppStore.on(change, setGenre);
+        };
+
+        return () => musicAppStore.removeListener(change, setGenre);
+    })
+
+    return display;
+};
 
 
 export default class Genre extends React.Component {
@@ -88,8 +129,7 @@ export default class Genre extends React.Component {
         
         if (search) {
             if (search.genreName !== undefined) {
-                const genre = musicAppStore.getGenre(search.genreName);
-                display = <SingleGenre {...genre} />
+                display = <IndividualGenre genreSlug={search.genreName} />
             } else {
                 display = <ListGenres filter={search} />;
             };
@@ -104,4 +144,3 @@ export default class Genre extends React.Component {
         );
     };
 };
-

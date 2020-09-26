@@ -78,12 +78,20 @@ class MusicAppStore extends EventEmitter {
         return this.genres;
     };
 
-    getGenre (genreName) {
+    getGenre (genreSlug) {
         // get an individual genre? from here first, if not there get it from the back-end
-        fetchGenreCategories(genreName)
-        const genre = this.genres[0];
-        genre.categories = this.categories.genreCategories[genreName];
+        const genre = this.genres.find((genre) => genre.genreSlug === genreSlug);
+        if (genre) {
+            fetchGenreCategories(genreSlug)
+        };
         return genre;
+    };
+
+    filterGenreCategories (genreSlug) {
+        return [
+            ...this.categories.albumCategories,
+            ...this.categories.artistCategories
+        ].filter((category) => category.genre && category.genre.genreSlug === genreSlug);
     };
 
     fetchArtists () {
@@ -175,6 +183,31 @@ class MusicAppStore extends EventEmitter {
             case actions.FETCH_ARTIST_ALBUMS:
                 this.albums = this.uniqueItemsPreservingArray1(this.albums, action.payload.albums.map(this.genericCleaner), 'albumSlug');
                 this.emit(`FETCHED_${action.payload.artist.toUpperCase()}_ALBUMS`);
+                break;
+
+            case actions.FETCH_GENRE:
+                const genre = this.genericCleaner(action.payload);
+                
+                if (!this.genres.length || this.genres.find((_genre) => _genre.genreSlug === genre.genreSlug) === -1) {
+                    this.genres.push(genre);
+                };
+                this.emit(`FETCHED_GENRE_${genre.genreSlug.toUpperCase()}`);
+                break;
+
+            case actions.FETCH_GENRE_CATEGORIES:
+                Object.keys(action.payload).forEach((_genre) => {
+                    action.payload[_genre].forEach((_category) => {
+                        const cleanCategory = this.genericCleaner(_category);
+
+                        // add category to the correct category
+                        if (cleanCategory.albumCategory) {
+                            this.categories.albumCategories.push(cleanCategory);
+                        } else {
+                            this.categories.artistCategories.push(cleanCategory);
+                        };
+                    });
+                    this.emit(`FETCHED_GENRE_CATEGORIES_FOR_${_genre}`);
+                });
                 break;
 
             default:

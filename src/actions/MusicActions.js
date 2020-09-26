@@ -1,4 +1,3 @@
-import data from './test_data.json';
 import actions from './DispatchActions';
 import dispatcher from '../dispatcher/dispatcher';
 import ajax from './ajaxWrapper';
@@ -29,14 +28,25 @@ export function fetchHomeData() {
 export function fetchGenreCategories (genreSlug) {
     // code to fetch from the back-end goes here!
 
-    const genreCategories = data.genre_categories;
+    const dispatchGenreCategories = (genreCategories) => {
+        dispatcher.dispatch({
+            type: actions.FETCH_GENRE_CATEGORIES,
+            payload: {
+                [genreSlug]: genreCategories
+            }
+        });
+    };
 
-    dispatcher.dispatch({
-        type: actions.FETCH_GENRE_CATEGORIES,
-        payload: {
-            [genreSlug]: genreCategories
+    const genreCategoriesOptions = {
+        url: `/api/categories/?for=genre&genre_slug=${genreSlug}`,
+        responseType: 'json',
+        error: () => {},
+        success: (response) => {
+            dispatchGenreCategories(response.response.categories);
         }
-    });
+    };
+
+    ajax.get(genreCategoriesOptions);
 };
 
 
@@ -135,4 +145,25 @@ export function fetchArtistAlbums (artistSlug) {
     };
 
     ajax.get(artistAlbumOptions);
+};
+
+
+export function fetchGenre (genreSlug) {
+    const genreDispatcher = (genre) => {
+        dispatcher.dispatch({
+            type: actions.FETCH_GENRE,
+            payload: genre
+        });
+    };
+
+    const genreOptions = {
+        url: `/api/genres/${genreSlug}/`,
+        responseType: 'json',
+        error: () => {},
+        success: (response) => {
+            genreDispatcher(response.response)
+        }
+    };
+
+    ajax.get(genreOptions)
 };
