@@ -69,6 +69,7 @@ function GenreCategories (props) {
 
     return (
         <div id="genre-categories" className="container">
+            <h2>Categories for this genre</h2>
             {mappedCategories}
         </div>
     );
